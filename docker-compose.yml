@@ -1,0 +1,39 @@
+services:
+  fastapi:
+    build:
+      context: .
+      target: dev
+    image: $PROJECT_ID-backend:latest
+    container_name: $PROJECT_ID-backend-dev
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+      - $GOOGLE_APPLICATION_CREDENTIALS:/root/.config/gcloud/application_default_credentials.json:ro
+    environment:
+      - GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload
+    depends_on:
+      - test
+
+  test:
+    build:
+      context: .
+      target: dev
+    image: fastapi-backend:latest
+    container_name: fastapi-test
+    volumes:
+      - .:/src
+    command: pytest /src/tests
+    depends_on:
+      - lint
+
+  lint:
+    build:
+      context: .
+      target: dev
+    image: fastapi-backend:latest
+    container_name: fastapi-lint
+    volumes:
+      - .:/src
+    command: ruff check /src
