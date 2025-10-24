@@ -1,6 +1,4 @@
 import os
-
-import os
 import shutil
  
 # Remove temporary files from folder
