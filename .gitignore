@@ -1,0 +1,6 @@
+# Ignora credenziali e file sensibili
+app/credentials
+*.json
+
+# Ambiente virtuale
+.venv/

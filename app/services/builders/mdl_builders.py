@@ -65,7 +65,7 @@ def build_mdl_role_assignments(df_context: pd.DataFrame, df_resource: pd.DataFra
         role_assignments_rows.append({
             'id': int(role_assignments_id_counter),
             'roleid': 3,
-            'context_id': int(context_id),
+            'contextid': int(context_id),
             'userid': int(userid),
             'timemodified': '',
             'modifierid': '',

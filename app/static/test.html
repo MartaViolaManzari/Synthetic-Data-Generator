@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="it">
+    <head>
+        <meta charset="UTF-8">
+        <title>Test Barra di Avanzamento</title>
+        <style>
+            #progress-bar { width: 100%; height: 20px; }
+            #status { margin-top: 10px; font-family: sans-serif; }
+        </style>
+    </head>
+    <body>
+        <h1>Simulazione Barra di Avanzamento</h1>
+        <progress id="progress-bar" max="100" value="0"></progress>
+        <div id="status"></div>
+
+        <script>
+            const evtSource = new EventSource("/api/test/progress");
+
+            evtSource.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                document.getElementById("progress-bar").value = data.progress;
+                document.getElementById("status").innerText = data.message;
+
+                if (data.progress === 100) {
+                    evtSource.close();
+                }
+            };
+        </script>
+    </body>
+</html>

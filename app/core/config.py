@@ -40,6 +40,6 @@ class Settings(BaseSettings):
         Union[list[AnyUrl], str], BeforeValidator(parse_cors)
     ] = []
 
-    PROJECT_NAME: str = ""
+    PROJECT_NAME: str = "Synthetic Data Generator"
 
 settings = Settings()  # type: ignore

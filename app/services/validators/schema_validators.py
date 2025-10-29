@@ -5,6 +5,39 @@ logger = logging.getLogger(__name__)
 
 
 
+# VALIDAZIONE UNICITà E NON NULL
+
+def verifica_unicita(df: pd.DataFrame, colonna: str) -> bool:
+    if colonna not in df.columns:
+        logger.error(f"Colonna '{colonna}' non trovata.")
+        return False
+    if df[colonna].isnull().any():
+        logger.error(f"La colonna '{colonna}' contiene valori nulli.")
+        return False
+    if df[colonna].duplicated().any():
+        logger.error(f"La colonna '{colonna}' contiene duplicati.")
+        return False
+    logger.info(f"Colonna '{colonna}' valida: valori unici e non nulli.")
+    return True
+
+
+
+# VALIDAZIONE RANGE DI VALORI
+
+def verifica_range(df: pd.DataFrame, colonna: str, minimo, massimo) -> bool:
+    if colonna not in df.columns:
+        logger.error(f"Colonna '{colonna}' non trovata.")
+        return False
+    valori = df[colonna].dropna().unique()
+    invalidi = [v for v in valori if v < minimo or v > massimo]
+    if invalidi:
+        logger.error(f"Valori fuori range in '{colonna}': {invalidi[:10]}")
+        return False
+    logger.info(f"Colonna '{colonna}' valida: tutti i valori in range [{minimo}, {massimo}].")
+    return True
+
+
+
 # VALIDAZIONE CHIAVI PRIMARIE
 
 def verifica_chiavi_primarie(df: pd.DataFrame) -> bool:
